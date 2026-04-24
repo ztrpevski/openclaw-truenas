@@ -1,4 +1,4 @@
-FROM openclaw/openclaw:latest
+FROM 0penclaw/openclaw:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 
