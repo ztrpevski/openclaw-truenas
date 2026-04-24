@@ -1,21 +1,22 @@
-FROM 0penclaw/openclaw:latest
+FROM alpine/openclaw:latest
 
-USER root
-
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
+# Install Python and build deps
+RUN apk add --no-cache \
     python3 \
-    python3-pip \  
-    python-pip \
-    python3-dev \
-    build-essential \
+    py3-pip \
+    py3-virtualenv \
+    build-base \
+    linux-headers \
     git \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+    curl
 
-RUN ln -sf /usr/bin/python3 /usr/bin/python
+# Ensure python/pip commands exist
+RUN ln -sf python3 /usr/bin/python
 
-RUN python3 -m pip install --no-cache-dir --upgrade pip \
-    && python3 -m pip install --no-cache-dir \
-        torch torchvision diffusers accelerate
+# Upgrade pip tooling
+RUN python3 -m pip install --no-cache-dir --upgrade pip setuptools wheel
+
+# Install ML packages
+RUN python3 -m pip install --no-cache-dir \
+    torch torchvision \
+    diffusers accelerate
