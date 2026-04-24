@@ -23,7 +23,14 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
 
+RUN python3 -m venv /opt/venv
 
-# RUN python3 -m pip install --no-cache-dir --upgrade pip \
-#     && python3 -m pip install --no-cache-dir \
-#         torch torchvision diffusers accelerate
+ENV PATH="/opt/venv/bin:$PATH"
+
+# --- Install Python packages INSIDE venv ---
+RUN pip install --no-cache-dir --upgrade pip setuptools wheel
+
+
+RUN python3 -m pip install --no-cache-dir --upgrade pip \
+    && python3 -m pip install --no-cache-dir \
+        torch torchvision diffusers accelerate
