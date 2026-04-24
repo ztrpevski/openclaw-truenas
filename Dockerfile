@@ -34,3 +34,6 @@ RUN pip install --no-cache-dir --upgrade pip setuptools wheel
 RUN python3 -m pip install --no-cache-dir --upgrade pip \
     && python3 -m pip install --no-cache-dir \
         torch torchvision diffusers accelerate
+
+USER node
+        
